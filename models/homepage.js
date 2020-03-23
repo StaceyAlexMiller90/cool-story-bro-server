@@ -15,10 +15,6 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       defaultValue: '#000000'
     },
-    userId: {
-      type: DataTypes.INTEGER, 
-      allowNull: false,
-    },
   }, {});
   homepage.associate = function(models) {
     homepage.belongsTo(models.user)

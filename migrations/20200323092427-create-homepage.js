@@ -23,10 +23,6 @@ module.exports = {
         type: Sequelize.STRING,
         defaultValue: '#000000'
       },
-      userId: {
-        type: Sequelize.INTEGER, 
-        allowNull: false,
-      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE

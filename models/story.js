@@ -7,10 +7,6 @@ module.exports = (sequelize, DataTypes) => {
     },
     content: DataTypes.TEXT,
     imageUrl: DataTypes.STRING,
-    homepageId: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-    },
   }, {});
   story.associate = function(models) {
     story.belongsTo(models.homepage)
