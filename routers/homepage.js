@@ -1,9 +1,8 @@
 const express = require ('express')
 const { Router } = express
-
 const Homepage = require("../models").homepage;
 const Stories = require("../models").story;
-
+const authMiddleware = require("../auth/middleware");
 const router = new Router()
 
 router.get("/", async (req, res, next) => {
@@ -23,6 +22,21 @@ router.get("/:id", async (req, res, next) => {
       order: [[Stories, "createdAt", "DESC"]]
     })
     !homepages ? res.status(404).send('No homepage found') : res.json(homepages)
+  } catch (e) {
+    next(e)
+  }
+})
+
+router.post("/:id/stories", authMiddleware, async (req, res, next) => {
+  const {name, content, imageUrl, homepageId} = req.body
+  try {
+    const newStory = await Stories.create({
+      name,
+      content,
+      imageUrl,
+      homepageId
+    })
+    res.json(newStory)
   } catch (e) {
     next(e)
   }
