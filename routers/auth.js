@@ -3,7 +3,9 @@ const { Router } = require("express");
 const { toJWT } = require("../auth/jwt");
 const authMiddleware = require("../auth/middleware");
 const User = require("../models/").user;
+const Homepage = require("../models/").homepage;
 const { SALT_ROUNDS } = require("../config/constants");
+const Stories = require("../models").story;
 
 const router = new Router();
 
@@ -17,16 +19,19 @@ router.post("/login", async (req, res, next) => {
         .send({ message: "Please provide both email and password" });
     }
 
-    const user = await User.findOne({ where: { email } });
+    const user = await User.findOne({ 
+      where: { email },
+      include: { model: Homepage, include: Stories, order: [[Stories, "createdAt", "DESC"]] }
+    });
 
     if (!user || !bcrypt.compareSync(password, user.password)) {
       return res.status(400).send({
         message: "User with that email not found or password incorrect"
       });
     }
-
     delete user.dataValues["password"]; // don't send back the password hash
     const token = toJWT({ userId: user.id });
+
     return res.status(200).send({ token, ...user.dataValues });
   } catch (error) {
     console.log(error);
@@ -69,7 +74,12 @@ router.post("/signup", async (req, res) => {
 router.get("/me", authMiddleware, async (req, res) => {
   // don't send back the password hash
   delete req.user.dataValues["password"];
-  res.status(200).send({ ...req.user.dataValues });
+  const usersHomepage = await Homepage.findOne({
+    where: {userId: req.user.id},
+    include: [Stories],
+    order: [[Stories, "createdAt", "DESC"]]
+  })
+  res.status(200).send({ ...req.user.dataValues, homepage: usersHomepage});
 });
 
 module.exports = router;
