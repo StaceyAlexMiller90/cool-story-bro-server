@@ -27,6 +27,18 @@ router.get("/:id", async (req, res, next) => {
   }
 })
 
+router.patch("/:id", authMiddleware, async (req, res, next) => {
+  const id = parseInt(req.params.id)
+  try {
+    const homepageToUpdate = await Homepage.findByPk(id)
+    const newHomepage = await homepageToUpdate.update(req.body)
+    res.json(newHomepage)
+  } catch (e) {
+    next(e)
+  }
+})
+
+
 router.post("/:id/stories", authMiddleware, async (req, res, next) => {
   const {name, content, imageUrl, homepageId} = req.body
   try {
