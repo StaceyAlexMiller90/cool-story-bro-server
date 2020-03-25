@@ -29,6 +29,12 @@ module.exports = {
           createdAt: new Date(),
           updatedAt: new Date()
         },
+        {
+          userId: 1,
+          storyId: 4,
+          createdAt: new Date(),
+          updatedAt: new Date()
+        },
       ],
       {}
     );
