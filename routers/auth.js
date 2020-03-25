@@ -90,10 +90,13 @@ router.get("/me", authMiddleware, async (req, res) => {
   delete req.user.dataValues["password"];
   const usersHomepage = await Homepage.findOne({
     where: {userId: req.user.id},
-    include: [Stories],
+    include: { model: Stories, include: [User] },
     order: [[Stories, "createdAt", "DESC"]]
   })
-  res.status(200).send({ ...req.user.dataValues, homepage: usersHomepage});
+  const userLikedStories = await User.findByPk(req.user.id, {
+    include: [Stories]
+  })
+  res.status(200).send({ ...req.user.dataValues, homepage: usersHomepage });
 });
 
 module.exports = router;

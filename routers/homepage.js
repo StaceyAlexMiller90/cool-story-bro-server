@@ -2,6 +2,7 @@ const express = require ('express')
 const { Router } = express
 const Homepage = require("../models").homepage;
 const Stories = require("../models").story;
+const User = require("../models").user;
 const authMiddleware = require("../auth/middleware");
 const router = new Router()
 
@@ -18,7 +19,7 @@ router.get("/:id", async (req, res, next) => {
   const id = parseInt(req.params.id)
   try {
     const homepages = await Homepage.findByPk(id, {
-      include: [Stories],
+      include: { model: Stories, include: [User] },
       order: [[Stories, "createdAt", "DESC"]]
     })
     !homepages ? res.status(404).send('No homepage found') : res.json(homepages)
