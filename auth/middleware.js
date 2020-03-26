@@ -6,7 +6,7 @@ async function auth(req, res, next) {
     req.headers.authorization && req.headers.authorization.split(" ");
 
   if (!auth || !auth[0] === "Bearer" || !auth[1]) {
-    res.status(401).send({
+    return res.status(401).send({
       message:
         "This endpoint requires an Authorization header with a valid token"
     });

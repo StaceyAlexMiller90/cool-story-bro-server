@@ -7,8 +7,7 @@ const authMiddleware = require("../auth/middleware");
 const router = new Router()
 
 router.post("/", authMiddleware, async (req, res) => {
-  // don't send back the password hash
-  delete req.user.dataValues["password"];
+
   const {storyId, userId} = req.body
 
   await Like.create({userId, storyId})
@@ -19,6 +18,26 @@ router.post("/", authMiddleware, async (req, res) => {
   })
 
   res.status(200).send({ stories: storiesWithNewLikes });
+});
+
+router.delete("/", authMiddleware, async (req, res) => {
+
+  const {storyId, userId} = req.body
+
+  const likeToDelete = await Like.findOne({
+    where: {userId, storyId}
+  })
+
+  console.log("like to delete", likeToDelete)
+
+  await likeToDelete.destroy()
+
+  const storiesWithoutLike = await Stories.findAll({
+    include: [User],
+    order: [["createdAt", "DESC"]]
+  })
+
+  res.status(200).send({ stories: storiesWithoutLike });
 });
 
 module.exports = router
