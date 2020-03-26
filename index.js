@@ -134,6 +134,9 @@ app.use("/", authRouter);
 const homepageRouter = require('./routers/homepage')
 app.use("/homepages", homepageRouter)
 
+const likesRouter = require('./routers/likes')
+app.use("/likes", likesRouter)
+
 // Listen for connections on specified port (default is port 4000)
 const { PORT } = require("./config/constants");
 

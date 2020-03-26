@@ -93,9 +93,6 @@ router.get("/me", authMiddleware, async (req, res) => {
     include: { model: Stories, include: [User] },
     order: [[Stories, "createdAt", "DESC"]]
   })
-  const userLikedStories = await User.findByPk(req.user.id, {
-    include: [Stories]
-  })
   res.status(200).send({ ...req.user.dataValues, homepage: usersHomepage });
 });
 

@@ -3,6 +3,7 @@ const { Router } = express
 const Homepage = require("../models").homepage;
 const Stories = require("../models").story;
 const User = require("../models").user;
+const Like = require("../models").like;
 const authMiddleware = require("../auth/middleware");
 const router = new Router()
 
@@ -49,7 +50,8 @@ router.post("/:id/stories", authMiddleware, async (req, res, next) => {
       imageUrl,
       homepageId
     })
-    res.json(newStory)
+
+    res.json({newStory, users: []})
   } catch (e) {
     next(e)
   }
