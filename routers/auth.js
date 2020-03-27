@@ -21,7 +21,8 @@ router.post("/login", async (req, res, next) => {
 
     const user = await User.findOne({ 
       where: { email },
-      include: { model: Homepage, include: Stories, order: [[Stories, "createdAt", "DESC"]] }
+      include: { model: Homepage, include: { model: Stories, include: {model: User} }, 
+      order: [[Stories, "createdAt", "DESC"]] }
     });
 
     if (!user || !bcrypt.compareSync(password, user.password)) {
@@ -64,7 +65,7 @@ router.post("/signup", async (req, res) => {
 
     const newHomepageAndStories = await Homepage.findOne({
       where: {userId: newUser.id},
-      include: [Stories], 
+      include: { model: Stories, include: {model: User}}, 
       order: [[Stories, "createdAt", "DESC"]]
     })
 
@@ -93,7 +94,9 @@ router.get("/me", authMiddleware, async (req, res) => {
     include: { model: Stories, include: [User] },
     order: [[Stories, "createdAt", "DESC"]]
   })
+  
   res.status(200).send({ ...req.user.dataValues, homepage: usersHomepage });
 });
 
 module.exports = router;
+ 

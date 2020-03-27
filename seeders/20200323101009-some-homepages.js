@@ -6,20 +6,38 @@ module.exports = {
       "homepages",
       [
         {
-          title: "testhomepage1",
-          description: "a random description of stuff",
-          backgroundColor: '#121629',
-          color: '#fffffe',
+          title: "Lorem Ipsum",
+          description: "Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit...",
+          backgroundColor: '#FFFFFF',
+          color: '#1f1235',
           userId: 1,
           createdAt: new Date(),
           updatedAt: new Date()
         },
         {
-          title: "testhomepage2",
-          description: "a couple of things that i want to broadcast to the world",
-          backgroundColor: '#eff0f3',
-          color: '#ff8e3c',
+          title: "Lorem Ipsum",
+          description: "Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit...",
+          backgroundColor: '#004643',
+          color: '#fffffe',
           userId: 2,
+          createdAt: new Date(),
+          updatedAt: new Date()
+        },
+        {
+          title: "Lorem Ipsum",
+          description: "Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit...",
+          backgroundColor: '#90b4ce',
+          color: '#094067',
+          userId: 3,
+          createdAt: new Date(),
+          updatedAt: new Date()
+        },
+        {
+          title: "Lorem Ipsum",
+          description: "Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit...",
+          backgroundColor: '#faeee7',
+          color: '#33272a',
+          userId: 4,
           createdAt: new Date(),
           updatedAt: new Date()
         }
